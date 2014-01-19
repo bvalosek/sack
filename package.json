@@ -1,6 +1,6 @@
 {
   "name": "sack",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Inversion-of-control container for all your dependency injection needs.",
   "keywords": [
     "inversion of control",
