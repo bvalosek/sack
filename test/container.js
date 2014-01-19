@@ -78,7 +78,7 @@ test('Make from ctor', function(t) {
   function A() { t.ok(true, 'A ctor fired'); }
 
   r.register('a', A);
-  r.makeFromConstructor(T);
+  r.make(T);
 
 });
 
@@ -87,7 +87,7 @@ test('Singletons', function(t) {
 
   var r = new Resolver();
   function T() { t.ok(true, 'T ctor fired'); }
-  r.singleton('t', T);
+  r.shared('t', T);
 
   t.strictEqual(r.make('t'), r.make('t'), 'Same instance created');
 
@@ -106,7 +106,7 @@ test('Singleton as a dep', function(t) {
   }
 
   r.register('a', A);
-  r.singleton('t', T);
+  r.shared('t', T);
 
   r.make('t');
   r.make('t');
