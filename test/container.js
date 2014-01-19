@@ -1,10 +1,10 @@
 var test = require('tape');
-var Resolver = require('../lib/Container.js');
+var Container = require('../lib/Container.js');
 
 test('Basic single dep constructor registration', function(t) {
   t.plan(1);
 
-  var r = new Resolver();
+  var r = new Container();
   var x = 't';
   var T = function T() {};
 
@@ -16,7 +16,7 @@ test('Basic single dep constructor registration', function(t) {
 test('Register throws', function(t) {
   t.plan(1);
 
-  var r = new Resolver();
+  var r = new Container();
   var x = 't';
   var T = function T() {};
 
@@ -30,7 +30,7 @@ test('Register throws', function(t) {
 test('Resolve method throws', function(t) {
   t.plan(1);
 
-  var r = new Resolver();
+  var r = new Container();
 
   t.throws(function() {
     r._resolve('not there');
@@ -38,9 +38,9 @@ test('Resolve method throws', function(t) {
 });
 
 test('Basic dep track', function(t) {
-  t.plan(5); 
+  t.plan(5);
 
-  var r = new Resolver();
+  var r = new Container();
   var A = function() { t.ok(true, 'A ctor fired'); };
   var B = function() { t.ok(true, 'B ctor fired'); };
   var T = function T(a, b) {
@@ -60,7 +60,7 @@ test('Basic dep track', function(t) {
 test('Throw on unmet dep', function(t) {
   t.plan(1);
 
-  var r = new Resolver();
+  var r = new Container();
   r.register('T', function(A, B, C) {});
   t.throws(function() {
     r.make('T');
@@ -71,7 +71,7 @@ test('Throw on unmet dep', function(t) {
 test('Make from ctor', function(t) {
   t.plan(2);
 
-  var r = new Resolver();
+  var r = new Container();
   function T(a) {
     t.strictEqual(true, a instanceof A, 'a passed in');
   }
@@ -85,7 +85,7 @@ test('Make from ctor', function(t) {
 test('Singletons', function(t) {
   t.plan(2);
 
-  var r = new Resolver();
+  var r = new Container();
   function T() { t.ok(true, 'T ctor fired'); }
   r.shared('t', T);
 
@@ -96,7 +96,7 @@ test('Singletons', function(t) {
 test('Singleton as a dep', function(t) {
   t.plan(2);
 
-  var r = new Resolver();
+  var r = new Container();
   function T(a) {
     t.ok(true, 'T ctor called');
   }
@@ -116,7 +116,7 @@ test('Singleton as a dep', function(t) {
 test('Nop', function(t) {
   t.plan(1);
 
-  var r = new Resolver();
+  var r = new Container();
   var weird = {};
 
   t.strictEqual(r.make(weird), weird, 'identity transform');
@@ -126,7 +126,7 @@ test('Nop', function(t) {
 test('Using closures', function(t) {
   t.plan(3);
 
-  var r = new Resolver();
+  var r = new Container();
   var DEP = {};
   var B_DEP = {};
 
@@ -155,9 +155,18 @@ test('Registering instances', function(t) {
 
   var thing = {};
 
-  var r = new Resolver();
+  var r = new Container();
   r.register('a', thing);
   t.strictEqual(thing, r.make('a'), 'making returns instance');
   t.strictEqual(thing, r.make('a'), 'making returns same instance');
+
+});
+
+test('Self register', function(t) {
+  t.plan(2);
+
+  var c = new Container();
+  t.strictEqual(c.make('container'), c, 'got em');
+  t.strictEqual(c.make('container'), c, 'got em');
 
 });

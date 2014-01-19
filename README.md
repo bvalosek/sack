@@ -29,33 +29,51 @@ It lets you have a highly-decoupled and framework-independent domain objects.
 
 ## Usage
 
-The functionality of Sack lies within its `Container` class.
-
-### Registering Objects
-
-Register a dependency with a container with a stringly-typed tag and either a
-constructor, instance, or closure.
+Dependencies are all managed via a `Container` instance:
 
 ```javascript
 var Container = require('sack').Container;
 
+...
+
 var container = new Container();
+```
 
-// Create a new instance every request:
+### Registering Objects
+
+Register a constructor function that will get executed every time the
+dependency is resolved, creating a new instance:
+
+```javascript
 container.register('service', MyService);
+```
 
-// Create a new instance on first request, then reuse (singleton-esque):
+Register a constructor function that will get executed *one time* when the
+first time a dependency is resolved, and then re-used after that (singleton):
+
+```javascript
 container.shared('service', MyService);
+```
 
-// Use an existing instance:
-container.register('service', new Service());
+Register an existing object instance as a dependency:
 
-// Have a (lazily evaluated) callback provide the dependency every request
+```javascript
+container.register('service', someService);
+```
+
+Register a (lazily evaluated) callback to provide the dependency on every
+request:
+
+```javascript
 container.register('service', function() {
   return new MyService();
 });
+```
 
-// Use a callback to provide the dependency, but only once (singleton):
+Registered a callback to provide the dependency the first time it is requested,
+and then re-use it all subsequent times (singleton via callback):
+
+```javascript
 container.shared('service', function() {
   return new MyService();
 });
