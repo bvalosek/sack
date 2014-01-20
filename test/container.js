@@ -13,20 +13,6 @@ test('Basic single dep constructor registration', function(t) {
 
 });
 
-test('Register throws', function(t) {
-  t.plan(1);
-
-  var r = new Container();
-  var x = 't';
-  var T = function T() {};
-
-  r.register(x, T);
-  t.throws(function() {
-    r.register(x, T);
-  }, 'Dupe on register');
-
-});
-
 test('Resolve method throws', function(t) {
   t.plan(1);
 
@@ -168,5 +154,23 @@ test('Self register', function(t) {
   var c = new Container();
   t.strictEqual(c.make('container'), c, 'got em');
   t.strictEqual(c.make('container'), c, 'got em');
+
+});
+
+test('Factory style', function(t) {
+  t.plan(4);
+
+  function M() { }
+  var LOL = {};
+
+  var container = new Container();
+
+  container.registerFactory(M, function() {
+    t.pass('factory fired');
+    return LOL;
+  });
+
+  t.strictEqual(container.factory(M), LOL, 'made it'); // 2x
+  t.strictEqual(container.factory(M), LOL, 'made it'); // 2x
 
 });
