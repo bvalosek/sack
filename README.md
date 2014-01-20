@@ -16,7 +16,7 @@ install with npm:
 npm install sack
 ```
 
-## Rationale
+## Introduction
 
 This is a simple *Inversion of Control Container*. It provides the mechanism
 you need to have a centralized store of object instances that other types can
@@ -41,8 +41,8 @@ var container = new Container();
 
 ### Registering Objects
 
-Register a constructor function that will get executed every time the
-dependency is resolved, creating a new instance:
+Register a class constructor that will get executed every time the dependency
+is resolved, creating a new instance:
 
 ```javascript
 container.register('service', MyService);
@@ -78,6 +78,16 @@ container.shared('service', function() {
   return new MyService();
 });
 
+```
+
+Register a factory callback for a specific class constructor. This is useful
+for allowing objects to create several of another object without explictly
+knowing how:
+
+```javascript
+container.registerFactory(GameEntity, function(pool) {
+  return pool.aquire(GameEntity);
+});
 ```
 
 ### Resolving Objects
