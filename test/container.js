@@ -176,7 +176,7 @@ test('Factory style', function(t) {
 });
 
 test('call method', function(t) {
-  t.plan(4);
+  t.plan(8);
 
   var context = { };
   var ret = {};
@@ -194,8 +194,10 @@ test('call method', function(t) {
   container.register('a', A);
   container.register('b', B);
 
-  var r = container.call(context, 'f');
+  var r = container.call(context, context.f);
   t.strictEqual(r, ret);
 
+  // with make defaulting out
+  t.strictEqual(ret, container.make(context, context.f));
 
 });
