@@ -1,5 +1,10 @@
 # Change History
 
+## 1.2.0 (2014-01-23)
+
+* Added member function `call()` to call a function within a certain context,
+  resolving all named parameters as dependencies.
+
 ## 1.1.0 (2014-01-20)
 
 * Container self-registers with tag `"container"` instead of `"resolver"`

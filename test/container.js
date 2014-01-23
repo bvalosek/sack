@@ -174,3 +174,28 @@ test('Factory style', function(t) {
   t.strictEqual(container.factory(M), LOL, 'made it'); // 2x
 
 });
+
+test('call method', function(t) {
+  t.plan(4);
+
+  var context = { };
+  var ret = {};
+  context.f = function(b, a) {
+    t.strictEqual(this, context);
+    t.ok(a instanceof A);
+    t.ok(a instanceof A);
+    return ret;
+  }
+  function A() { }
+  function B() { }
+
+  var container = new Container();
+
+  container.register('a', A);
+  container.register('b', B);
+
+  var r = container.call(context, 'f');
+  t.strictEqual(r, ret);
+
+
+});
