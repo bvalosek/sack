@@ -3,38 +3,83 @@
 [![Build Status](https://travis-ci.org/bvalosek/sack.png?branch=master)](https://travis-ci.org/bvalosek/sack)
 [![NPM version](https://badge.fury.io/js/sack.png)](http://badge.fury.io/js/sack)
 
-Inversion-of-control container for all your dependency injection needs.
+An Inversion-of-Control container for all your dependency injection needs.
 
 [![browser support](https://ci.testling.com/bvalosek/sack.png)](https://ci.testling.com/bvalosek/sack)
 
 ## Installation
 
-**Sack** is meant to be used with [Browserify](http://browserify.org/), so
-install with npm:
-
 ```
 npm install sack
 ```
 
+**Sack** works on both on the server with NodeJS and the client with
+[Browserify](http://browserify.org/).
+
 ## Introduction
 
 This is a simple *Inversion of Control Container*. It provides the mechanism
-you need to have a centralized store of object instances that other types can
-passive request get injected.
+you need to have a centralized store of lazily-created, dynamically resolved
+object instances that other types can passively request get injected.
 
 This means that you can have objects use, access, or compose other objects
-without having to explicitly know how to create / setup / initialize them.
+without having to explicitly know how to create/setup/initialize them.
 
 It lets you have a highly-decoupled and framework-independent domain objects.
 
+### Philosophy
+
+As with any IoC container, you want to only have your code be aware of the
+container the topmost/single entry point that bootstraps the rest of your
+application.
+
+It is very much so an antipattern to have traces of the IoC container all over your
+codebase. The idea is to allow your business logic and domain classes to be
+**totally unaware** that they are getting injected by a container, keeping them
+free of Sack-specific code.
+
+This is done by  embracing and reifying the pattern of *dependency injection
+via constructor parameters*. Instead of having all of your objects be aware of
+how to find, access, setup, initialize, and manage other objects, they simply
+implicitly state their need for a dependency as a constructor parameter.
+
+It allows your business logic classes to go from this:
+
+```javascript
+function UserController()
+{
+  var connection = new DbConnection(global.settings.conConfig);
+  this.users = connection.selectUsers();
+}
+```
+
+To this:
+
+```javascript
+function UserController(users)
+{
+  this.users = users;
+}
+
+```
+
+This removes the knowledge and logic from `UserController` on how to connect to
+a database.
+
+In large applicaitons, things like model stores, application
+configs, service handles, etc. are all used across several different parts of
+an application. Relying on every consumer object to manage its dependencies
+violates [DRY](http://en.wikipedia.org/wiki/Don't_repeat_yourself) and
+[SRP](http://en.wikipedia.org/wiki/Single_responsibility_principle), making
+your codebase difficult to maintain as it scales.
+
+
 ## Usage
 
-Dependencies are all managed via a `Container` instance:
+Dependencies should be managed from a `Container` instance:
 
 ```javascript
 var Container = require('sack').Container;
-
-...
 
 var container = new Container();
 ```
@@ -90,13 +135,30 @@ container.registerFactory(GameEntity, function(pool) {
 });
 ```
 
+To be more explicit, you can use the more verbose methods of registration
+instead of having Sack guess:
+
+```javascript
+container.registerConstructor('users', MySqlUserStore);
+
+container.registerInstance('config', { version: '1.0.0' });
+
+container.registerClosure('currentUser', function(users) {
+  return users.fetchLoggedInUser();
+});
+```
+
 ### Resolving Objects
 
-You can create / request objects via the `make()` function.
+You can create / request objects via the `make()` function by passing in the
+string tag used during registration:
 
 ```javascript
 var service = container.make('service');
 ```
+
+Not that you should typically not be using Sack this way, but rather expressing
+dependencies as explained below:
 
 ### Expressing Dependencies
 
@@ -130,6 +192,16 @@ automatically.
 ```
 var controller = container.make(UserEditController);
 ```
+
+## Architecture Patterns
+
+Sack is not a framework, but it is something that should mostly live at the top
+of your application lifecycle.
+
+A typical pattern is to have some bootstrap file (`main.js`) that creates a
+`Container`, that then passes it to several *services* that each create and
+wire up their own set of dependencies. The services and ONLY the services are
+aware of the IoC container.
 
 ## Tern Support
 

@@ -1,5 +1,14 @@
 # Change History
 
+## 1.2.2 (2014-02-03)
+
+* Documentation improvements.
+
+## 1.2.1 (2014-01-23)
+
+* Allow `make()` to defer to `call()` when used with two parameters.
+* JSDoc cleanup.
+
 ## 1.2.0 (2014-01-23)
 
 * Added member function `call()` to call a function within a certain context,
