@@ -1,5 +1,10 @@
 # Change History
 
+## 1.3.0 (2014-02-22)
+
+* Can now use `registerInjects()` to have certain properties set immediately
+  after creation via any factory method on a per-class basis.
+
 ## 1.2.2 (2014-02-03)
 
 * Documentation improvements.

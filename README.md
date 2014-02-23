@@ -148,6 +148,13 @@ container.registerClosure('currentUser', function(users) {
 });
 ```
 
+You can also register certain properties to be set every time a depedency is
+created via any of the factory methods for a specific class.
+
+```javascript
+container.registerInjects(MyService, { securityToken: '123-123' });
+```
+
 ### Resolving Objects
 
 You can create / request objects via the `make()` function by passing in the
