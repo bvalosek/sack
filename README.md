@@ -75,7 +75,7 @@ your codebase difficult to maintain as it scales.
 
 The goal is to reduce how tightly coupled your various objects are by removing
 the knowledge of *how to create* other dependency objects, and simply rely on
-expressing *what kid* of objects we need.
+expressing *what kind* of objects we need.
 
 
 ## Usage
