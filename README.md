@@ -77,6 +77,9 @@ The goal is to reduce how tightly coupled your various objects are by removing
 the knowledge of *how to create* other dependency objects, and simply rely on
 expressing *what kind* of objects we need.
 
+This facilitates testing, as complex dependencies that are injected can be
+substituted with [mocks](http://en.wikipedia.org/wiki/Mock_object), and the
+consuming classes are not tied to a specific implementation.
 
 ## Usage
 
@@ -173,6 +176,29 @@ automatically.
 
 ```
 var controller = container.make(UserEditController);
+```
+
+### Strong vs Weak Dependencies
+
+By default, all registered dependencies are considered "strong", that is, they
+cannot be overridden. Attempting to register a dependency with the same name as
+another one will result in an error:
+
+```javascript
+container.register('server', express());
+container.register('server', http.createServer());
+
+> Error: Cannot override: config
+```
+
+Registering a dependency as weak allows it to be overriden later:
+
+
+```javascript
+container.register('config', {}).asWeak();
+container.register('config', new ConfigStore());
+
+// No error
 ```
 
 ## Architecture Patterns
