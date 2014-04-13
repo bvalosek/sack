@@ -1,5 +1,9 @@
 # Change History
 
+## 2.0.1 (2014-04-13)
+
+* Added `IoCBinding` class to the `exports` object.
+
 ## 2.0.0 (2014-04-13)
 
 * API change for registering (building pattern style). See README file.

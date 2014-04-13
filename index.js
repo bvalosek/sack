@@ -1,3 +1,4 @@
 module.exports = {
-  Container: require('./lib/Container.js')
+  Container: require('./lib/Container.js'),
+  IoCBinding: require('./lib/IoCBinding.js')
 };
