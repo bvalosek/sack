@@ -1,4 +1,5 @@
 var test = require('tape');
+
 var Container = require('../lib/Container.js');
 
 test('Basic single dep constructor registration', function(t) {
@@ -11,16 +12,6 @@ test('Basic single dep constructor registration', function(t) {
   r.register(x, T);
   t.strictEqual(r.make(x).constructor, T, 'Make returns instance');
 
-});
-
-test('Resolve method throws', function(t) {
-  t.plan(1);
-
-  var r = new Container();
-
-  t.throws(function() {
-    r._resolve('not there');
-  }, 'Missing type');
 });
 
 test('Basic dep track', function(t) {
@@ -43,17 +34,6 @@ test('Basic dep track', function(t) {
 
 });
 
-test('Throw on unmet dep', function(t) {
-  t.plan(1);
-
-  var r = new Container();
-  r.register('T', function(A, B, C) {});
-  t.throws(function() {
-    r.make('T');
-  }, 'no deps');
-
-});
-
 test('Make from ctor', function(t) {
   t.plan(2);
 
@@ -73,7 +53,7 @@ test('Singletons', function(t) {
 
   var r = new Container();
   function T() { t.ok(true, 'T ctor fired'); }
-  r.shared('t', T);
+  r.register('t', T).asSingleton();
 
   t.strictEqual(r.make('t'), r.make('t'), 'Same instance created');
 
@@ -92,12 +72,13 @@ test('Singleton as a dep', function(t) {
   }
 
   r.register('a', A);
-  r.shared('t', T);
+  r.register('t', T).asSingleton();
 
   r.make('t');
   r.make('t');
 
 });
+
 
 test('Nop', function(t) {
   t.plan(1);
@@ -108,6 +89,7 @@ test('Nop', function(t) {
   t.strictEqual(r.make(weird), weird, 'identity transform');
 
 });
+
 
 test('Using closures', function(t) {
   t.plan(3);
@@ -145,59 +127,5 @@ test('Registering instances', function(t) {
   r.register('a', thing);
   t.strictEqual(thing, r.make('a'), 'making returns instance');
   t.strictEqual(thing, r.make('a'), 'making returns same instance');
-
-});
-
-test('Self register', function(t) {
-  t.plan(2);
-
-  var c = new Container();
-  t.strictEqual(c.make('container'), c, 'got em');
-  t.strictEqual(c.make('container'), c, 'got em');
-
-});
-
-test('Factory style', function(t) {
-  t.plan(4);
-
-  function M() { }
-  var LOL = {};
-
-  var container = new Container();
-
-  container.registerFactory(M, function() {
-    t.pass('factory fired');
-    return LOL;
-  });
-
-  t.strictEqual(container.factory(M), LOL, 'made it'); // 2x
-  t.strictEqual(container.factory(M), LOL, 'made it'); // 2x
-
-});
-
-test('call method', function(t) {
-  t.plan(8);
-
-  var context = { };
-  var ret = {};
-  context.f = function(b, a) {
-    t.strictEqual(this, context);
-    t.ok(a instanceof A);
-    t.ok(a instanceof A);
-    return ret;
-  }
-  function A() { }
-  function B() { }
-
-  var container = new Container();
-
-  container.register('a', A);
-  container.register('b', B);
-
-  var r = container.call(context, context.f);
-  t.strictEqual(r, ret);
-
-  // with make defaulting out
-  t.strictEqual(ret, container.make(context, context.f));
 
 });

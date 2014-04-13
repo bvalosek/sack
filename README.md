@@ -66,12 +66,16 @@ function UserController(users)
 This removes the knowledge and logic from `UserController` on how to connect to
 a database.
 
-In large applicaitons, things like model stores, application
+In large applications, things like model stores, application
 configs, service handles, etc. are all used across several different parts of
 an application. Relying on every consumer object to manage its dependencies
 violates [DRY](http://en.wikipedia.org/wiki/Don't_repeat_yourself) and
 [SRP](http://en.wikipedia.org/wiki/Single_responsibility_principle), making
 your codebase difficult to maintain as it scales.
+
+The goal is to reduce how tightly coupled your various objects are by removing
+the knowledge of *how to create* other dependency objects, and simply rely on
+expressing *what kid* of objects we need.
 
 
 ## Usage
@@ -94,16 +98,17 @@ container.register('service', MyService);
 ```
 
 Register a constructor function that will get executed *one time* when the
-first time a dependency is resolved, and then re-used after that (singleton):
+first time the dependency is resolved, and then re-used after that (singleton
+pattern):
 
 ```javascript
-container.shared('service', MyService);
+container.register('service', MyService).asSingleton();
 ```
 
 Register an existing object instance as a dependency:
 
 ```javascript
-container.register('service', someService);
+container.register('service', someService).asInstance();
 ```
 
 Register a (lazily evaluated) callback to provide the dependency on every
@@ -119,40 +124,10 @@ Registered a callback to provide the dependency the first time it is requested,
 and then re-use it all subsequent times (singleton via callback):
 
 ```javascript
-container.shared('service', function() {
+container.register('service', function() {
   return new MyService();
-});
+}).asSingleton();
 
-```
-
-Register a factory callback for a specific class constructor. This is useful
-for allowing objects to create several of another object without explictly
-knowing how:
-
-```javascript
-container.registerFactory(GameEntity, function(pool) {
-  return pool.aquire(GameEntity);
-});
-```
-
-To be more explicit, you can use the more verbose methods of registration
-instead of having Sack guess:
-
-```javascript
-container.registerConstructor('users', MySqlUserStore);
-
-container.registerInstance('config', { version: '1.0.0' });
-
-container.registerClosure('currentUser', function(users) {
-  return users.fetchLoggedInUser();
-});
-```
-
-You can also register certain properties to be set every time a depedency is
-created via any of the factory methods for a specific class.
-
-```javascript
-container.registerInjects(MyService, { securityToken: '123-123' });
 ```
 
 ### Resolving Objects
@@ -190,7 +165,7 @@ UserEditController.prototype.refreshUsers()
 Assuming we have registered some implementation for `users`:
 
 ```javascript
-container.register('users', new LocalStorageUsers());
+container.register('users', LocalStorageUsers).asSingleton();
 ```
 
 Then making `UserEditController` via the container will resolve the dependency

@@ -1,5 +1,12 @@
 # Change History
 
+## 2.0.0 (2014-04-13)
+
+* API change for registering (building pattern style). See README file.
+* Dependencies can now be registered as weak (can be overridden) or strong.
+* Container no longer registers itself as a dependency.
+* Removal of `call()` and `registerInjects()` (for now).
+
 ## 1.3.0 (2014-02-22)
 
 * Can now use `registerInjects()` to have certain properties set immediately
