@@ -45,7 +45,7 @@
     ]
   },
   "dependencies": {
-    "typedef": "^1.0.2",
+    "typedef": "^1.0.3",
     "underscore": "^1.6.0"
   }
 }
