@@ -1,5 +1,9 @@
 # Change History
 
+## 2.0.2 (2014-04-14)
+
+* Upgraded `typedef` dependency that fixes issue with anonymous functions.
+
 ## 2.0.1 (2014-04-13)
 
 * Added `IoCBinding` class to the `exports` object.
