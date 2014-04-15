@@ -188,7 +188,7 @@ another one will result in an error:
 container.register('server', express());
 container.register('server', http.createServer());
 
-> Error: Cannot override: config
+> Error: Cannot override: server
 ```
 
 Registering a dependency as weak allows it to be overriden later:
