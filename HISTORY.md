@@ -1,5 +1,9 @@
 # Change History
 
+## 2.0.3 (2014-04-16)
+
+* Fixed issue in package.json.
+
 ## 2.0.2 (2014-04-14)
 
 * Upgraded `typedef` dependency that fixes issue with anonymous functions.
