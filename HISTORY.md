@@ -1,5 +1,9 @@
 # Change History
 
+## 2.0.4 (2014-05-16)
+
+* Use `~` instead of `^` in `package.json` for installing with old versions of `npm`.
+
 ## 2.0.3 (2014-04-16)
 
 * Fixed issue in package.json.
