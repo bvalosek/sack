@@ -25,7 +25,7 @@ without having to explicitly know how to create/setup/initialize them.
 It lets you have a highly-decoupled and framework-independent domain objects.
 
 Sack is used to power the service-oriented application harness
-[#billy](https://github.com/bvalosek/billy).
+[Billy](https://github.com/bvalosek/billy).
 
 ### Philosophy
 
