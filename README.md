@@ -13,9 +13,6 @@ An Inversion-of-Control container for all your dependency injection needs.
 npm install sack
 ```
 
-**Sack** works on both on the server with NodeJS and the client with
-[Browserify](http://browserify.org/).
-
 ## Introduction
 
 This is a simple *Inversion of Control Container*. It provides the mechanism
@@ -211,25 +208,12 @@ A typical pattern is to have some bootstrap file (`main.js`) that creates a
 wire up their own set of dependencies. The services and ONLY the services are
 aware of the IoC container.
 
-## Tern Support
-
-The source files are all decorated with [JSDoc3](http://usejsdoc.org/)-style
-annotations that work great with the [Tern](http://ternjs.net/) code inference
-system. Combined with the Node plugin (see this project's `.tern-project`
-file), you can have intelligent autocomplete for methods in this library.
-
 ## Testing
 
-Testing is done with [Tape](http://github.com/substack/tape) and can be run
-with the command `npm test`.
-
-Automated CI cross-browser testing is provided by
-[Testling](http://ci.testling.com/bvalosek/sack).
-
+```
+$ npm test
+```
 
 ## License
-Copyright 2014 Brandon Valosek
 
-**Sack** is released under the MIT license.
-
-
+MIT
