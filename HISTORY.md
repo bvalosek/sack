@@ -1,12 +1,22 @@
 # Change History
 
+## 2.1.0 (2014-06-20)
+
+* Updated dependencies
+* Added `getFactory` method to `Container`
+* Allow bare module require (old method still works, too)
+    * `var Container = require('sack');` vs
+    * `var Container = require('sack').Container`
+* Lots of updates to documentation
+
 ## 2.0.5 (2014-05-17)
 
 * Updated NPM dependencies.
 
 ## 2.0.4 (2014-05-16)
 
-* Use `~` instead of `^` in `package.json` for installing with old versions of `npm`.
+* Use `~` instead of `^` in `package.json` for installing with old versions of
+  `npm`.
 
 ## 2.0.3 (2014-04-16)
 
