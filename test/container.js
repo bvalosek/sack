@@ -129,3 +129,14 @@ test('Registering instances', function(t) {
   t.strictEqual(thing, r.make('a'), 'making returns same instance');
 
 });
+
+test('factory is just like make', function(t) {
+  t.plan(1);
+
+  var r = new Container();
+  var x = 't';
+  var T = function T() {};
+
+  r.register(x, T);
+  t.strictEqual(r.getFactory()(x).constructor, T, 'Make returns instance');
+});
