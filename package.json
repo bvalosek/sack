@@ -24,7 +24,7 @@
   "main": "index.js",
   "license": "MIT",
   "devDependencies": {
-    "tape": "~2.13.1"
+    "tape": "^2.13.3"
   },
   "repository": {
     "type": "git",
@@ -45,7 +45,7 @@
     ]
   },
   "dependencies": {
-    "typedef": "~1.0.4",
-    "underscore": "~1.6.0"
+    "typedef": "^1.0.4",
+    "underscore": "^1.6.0"
   }
 }
