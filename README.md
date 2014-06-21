@@ -80,7 +80,7 @@ consuming classes are not tied to a specific implementation.
 
 ## Usage
 
-Dependencies should be managed from a `Container` instance:
+All dependencies should be managed from a single `Container` instance:
 
 ```javascript
 var Container = require('sack');
@@ -99,7 +99,7 @@ container.register('service', MyService);
 
 Register a constructor function that will get executed *one time* when the
 first time the dependency is resolved, and then re-used after that (singleton
-pattern):
+pattern, lazily created):
 
 ```javascript
 container.register('service', MyService).asSingleton();
@@ -121,7 +121,7 @@ container.register('service', function() {
 ```
 
 Registered a callback to provide the dependency the first time it is requested,
-and then re-use it all subsequent times (singleton via callback):
+and then re-use it all subsequent times (lazily-created singleton via callback):
 
 ```javascript
 container.register('service', function() {
@@ -140,7 +140,7 @@ var service = container.make('service');
 ```
 
 Not that you should typically not be using Sack this way, but rather expressing
-dependencies as explained below:
+dependencies as explained below.
 
 ### Expressing Dependencies
 
