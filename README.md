@@ -83,7 +83,7 @@ consuming classes are not tied to a specific implementation.
 Dependencies should be managed from a `Container` instance:
 
 ```javascript
-var Container = require('sack').Container;
+var Container = require('sack');
 
 var container = new Container();
 ```
