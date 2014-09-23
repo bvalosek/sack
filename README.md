@@ -201,76 +201,13 @@ container.register('config', new ConfigStore());
 // No error
 ```
 
-## Container Methods
+## Documentation
 
-### register(tag: string, thing:any): IocBinding
+This will generate the HTML documentation under `./doc`:
 
-Registers a new dependency `thing` with name `tag` and returns an `IoCBinding`.
-
-`thing` could be an object instance, an object constructor function, or a
-closure. See *Registering Objects* above for examples.
-
-### make(tag:string): object
-
-Will resolve / create an object instance out of the container based on what was
-registered with `tag`.
-
-See *Resolving Objects* above.
-
-### make(T:constructor): object
-
-Will create a new object instance via the object constructor `Ctor` (e.g, `new
-Ctor()`).
-
-Any constructor parameters will be resolved out of the container. See
-*Expressing Dependencies* above.
-
-### getFactory(): function
-
-Returns a bound function that can be used as the container's `make` method.
-
-This is useful for passing around a single function to other objects that can
-use a factory to construct child objects.
-
-```javascript
-var factory = container.getFactory();
-
-var users = factory(UserCollection);
-
-var log = factory('logger');
 ```
-
-## IoCBinding Methods
-
-The following methods all return the `this` instance of the `IoCBinding` object
-it was called on.
-
-### asSingleton()
-
-Ensure that this bindings corresponding dependency is only created once. All
-subsequent requests will return the already created object.
-
-```javascript
-container.register('router', UrlRouter).asSingleton();
+$ npm run doc
 ```
-
-### asInstance()
-
-Mark this dependency as simply referencing an already-existing object instance.
-This is implicitly called if the containers registers a dependency that is not
-a function.
-
-```javascript
-container.register('router', myRouter).asInstance();
-```
-
-Not that is isn't usually necesary to call this unless the instance you are
-registering is a function object, but it doesn't hurt to be explicit.
-
-### asWeak()
-
-Allow this dependency to get overriden at a later time. See *Strong vs Weak
-Dependencies* above.
 
 ## Testing
 
