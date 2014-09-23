@@ -1,0 +1,14 @@
+{
+  "source":{
+    "include": [
+      "./lib",
+      "./README.md"
+    ]
+  },
+  "plugins": ["plugins/markdown"],
+  "opts": {
+    "template": "./node_modules/jsdoc3-bootstrap",
+    "recurse": true,
+    "destination": "./doc"
+  }
+}

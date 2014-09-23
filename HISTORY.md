@@ -1,5 +1,9 @@
 # Change History
 
+## 2.1.2 (2014-09-22)
+
+* JSDoc + documenation build script
+
 ## 2.1.1 (2014-08-30)
 
 * Updated dependencies
