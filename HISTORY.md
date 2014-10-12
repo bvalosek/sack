@@ -1,5 +1,10 @@
 # Change History
 
+## 2.2.0 (2014-10-12)
+
+* Added `tagExists` function to `Container`
+* Added `makeOrNull` function to `Container`
+
 ## 2.1.2 (2014-09-22)
 
 * JSDoc + documenation build script

@@ -140,3 +140,31 @@ test('factory is just like make', function(t) {
   r.register(x, T);
   t.strictEqual(r.getFactory()(x).constructor, T, 'Make returns instance');
 });
+
+test('tag exists function', function(t) {
+  t.plan(3);
+
+  var r = new Container();
+  t.strictEqual(false, r.tagExists('shit'));
+
+  r.register('abc', 123).asInstance();
+
+  t.strictEqual(true, r.tagExists('abc'));
+  t.strictEqual(false, r.tagExists('shit'));
+
+});
+
+test('make or null', function(t) {
+  t.plan(5);
+
+  var r = new Container();
+  t.strictEqual(null, r.makeOrNull('booboo'));
+
+  t.throws(function() { r.makeOrNull({}); });
+  t.throws(function() { r.makeOrNull(); });
+  t.throws(function() { r.makeOrNull(function T() { }); });
+
+  r.register('abc', 123).asInstance();
+  t.strictEqual(123, r.makeOrNull('abc'));
+
+});
