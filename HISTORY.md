@@ -1,5 +1,10 @@
 # Change History
 
+## 2.2.1 (2015-11-29)
+
+* Fixed issue when using actual classes (and not just constructor functions) in
+  ES2015 runtimes
+
 ## 2.2.0 (2014-10-12)
 
 * Added `tagExists` function to `Container`
