@@ -1,5 +1,9 @@
 # Change History
 
+## 2.2.2 (2015-11-29)
+
+* Fixed an issue parsing constructor arguments for ES2015 classes
+
 ## 2.2.1 (2015-11-29)
 
 * Fixed issue when using actual classes (and not just constructor functions) in
