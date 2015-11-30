@@ -1,5 +1,9 @@
 # Change History
 
+## 2.2.3 (2015-11-30)
+
+* Fixed an issue with nested functions when resolving param names.
+
 ## 2.2.2 (2015-11-29)
 
 * Fixed an issue parsing constructor arguments for ES2015 classes
