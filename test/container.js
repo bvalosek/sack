@@ -168,3 +168,18 @@ test('make or null', function(t) {
   t.strictEqual(123, r.makeOrNull('abc'));
 
 });
+
+test('param names extracted correctly with closures', function(t) {
+  t.plan(1);
+
+  var r = new Container();
+
+  var T = function() {
+    return function(a, b, c) { };
+  };
+
+  // shouldn't throw (should read no params, not a,b,c
+  r.make(T);
+  t.pass('made it');
+
+});
