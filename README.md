@@ -5,8 +5,6 @@
 
 An Inversion-of-Control container for all your dependency injection needs.
 
-[![browser support](https://ci.testling.com/bvalosek/sack.png)](https://ci.testling.com/bvalosek/sack)
-
 ## Installation
 
 ```
@@ -46,19 +44,25 @@ implicitly state their need for a dependency as a constructor parameter.
 It allows your business logic classes to go from this:
 
 ```javascript
-function UserController()
+class UserController()
 {
-  var connection = new DbConnection(global.settings.conConfig);
-  this.users = connection.selectUsers();
+  constructor()
+  {
+    const connection = new DbConnection(global.settings.conConfig);
+    this.users = connection.selectUsers();
+  }
 }
 ```
 
 To this:
 
 ```javascript
-function UserController(users)
+class UserController()
 {
-  this.users = users;
+  constructor(users)
+  {
+    this.users = users;
+  }
 }
 
 ```
@@ -86,9 +90,9 @@ consuming classes are not tied to a specific implementation.
 All dependencies should be managed from a single `Container` instance:
 
 ```javascript
-var Container = require('sack');
+import Container from 'sack';
 
-var container = new Container();
+const container = new Container();
 ```
 
 ### Registering Objects
@@ -118,19 +122,14 @@ Register a (lazily evaluated) callback to provide the dependency on every
 request:
 
 ```javascript
-container.register('service', function() {
-  return new MyService();
-});
+container.register('service', () => new MyService());
 ```
 
 Registered a callback to provide the dependency the first time it is requested,
 and then re-use it all subsequent times (lazily-created singleton via callback):
 
 ```javascript
-container.register('service', function() {
-  return new MyService();
-}).asSingleton();
-
+container.register('service', () => new MyService()).asSingleton();
 ```
 
 ### Resolving Objects
@@ -139,7 +138,7 @@ You can create / request objects via the `make()` function by passing in the
 string tag used during registration:
 
 ```javascript
-var service = container.make('service');
+const service = container.make('service');
 ```
 
 Not that you should typically not be using Sack this way, but rather expressing
@@ -154,14 +153,17 @@ An object expresses its dependency as a constructor parameter, whose name must
 match a registered object.
 
 ```javascript
-function UserEditController(users)
+class UserEditController
 {
-  this.users = users;
-}
+  constructor(users)
+  {
+    this.users = users;
+  }
 
-UserEditController.prototype.refreshUsers()
-{
-  this.users.refresh();
+  refreshUsers()
+  {
+    this.users.refresh();
+  }
 }
 ```
 
@@ -175,7 +177,7 @@ Then making `UserEditController` via the container will resolve the dependency
 automatically.
 
 ```
-var controller = container.make(UserEditController);
+const controller = container.make(UserEditController);
 ```
 
 ### Strong vs Weak Dependencies
