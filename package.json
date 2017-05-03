@@ -30,5 +30,8 @@
   "repository": {
     "type": "git",
     "url": "git@github.com:bvalosek/sack.git"
+  },
+  "dependencies": {
+    "babylon": "^6.17.0"
   }
 }
