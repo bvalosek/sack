@@ -34,6 +34,30 @@ test('Basic dep track', function(t) {
 
 });
 
+test('Basic dep track es6 style', function(t) {
+  t.plan(5);
+
+  var r = new Container();
+  var A = class { constructor() { t.ok(true, 'A ctor fired'); } };
+  var B = class { constructor() { t.ok(true, 'B ctor fired'); } };
+  var T = class TC{
+    classFunc(a){}
+
+    constructor(a, b) {
+      t.ok(true, 'T ctor fired');
+      t.strictEqual(true, a instanceof A, 'A passed in');
+      t.strictEqual(true, b instanceof B, 'B passed in');
+    };
+  }
+
+  r.register('t', T);
+  r.register('b', B);
+  r.register('a', A);
+
+  r.make('t');
+
+});
+
 test('Make from ctor', function(t) {
   t.plan(2);
 
@@ -181,5 +205,30 @@ test('param names extracted correctly with closures', function(t) {
   // shouldn't throw (should read no params, not a,b,c
   r.make(T);
   t.pass('made it');
+
+});
+
+test('Parsing function params', function(t) {
+  t.plan(5);
+
+  var r = new Container();
+  var A = function() { t.ok(true, 'A ctor fired'); };
+  var B = function() { t.ok(true, 'B ctor fired'); };
+
+  var T = function T(
+    a, /*,c*/
+    b //,d
+    /*, e */
+  ) {
+    t.ok(true, 'T ctor fired');
+    t.strictEqual(true, a instanceof A, 'A passed in');
+    t.strictEqual(true, b instanceof B, 'B passed in');
+  };
+
+  r.register('t', T);
+  r.register('b', B);
+  r.register('a', A);
+
+  r.make('t');
 
 });
