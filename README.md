@@ -5,6 +5,8 @@
 
 An Inversion-of-Control container for all your dependency injection needs.
 
+> This library is deprecated, all functionality is being rolled into [billy v2](https://github.com/bvalosek/billy)
+
 ## Installation
 
 ```
